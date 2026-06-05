@@ -5,6 +5,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
 using Terraria.Audio;
 using Terraria.UI;
 using Terraria.Localization;
@@ -34,57 +35,57 @@ namespace TheBookofDuplication
 
         public delegate void orig_RightClick(Item item, Player player);
 
+        private static bool IsItemDuplicable(Item item)
+        {
+            if (item.type == ModContent.ItemType<BookOfDuplication>()) return false;
+            if (item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin) return false;
+            if (item.type == ModContent.ItemType<UnloadedItem>()) return false;
+            if (Main.ItemDropsDB.GetRulesForItemID(item.type).Count != 0) return false;
+            return true;
+        }
+
         public static void DuplicationModifyRightClick(orig_RightClick orig, Item item, Player player)
         {
-            if (BookOfDuplication.Active)
+            if (BookOfDuplication.Active && IsItemDuplicable(item))
             {
-                bool canDuplicate = true;
+                long price = (long)(item.GetStoreValue() * 0.2 * Config.PriceMultiplier);
+                if (price < 0) price = 0;
                 
-                if (item.type == ModContent.ItemType<BookOfDuplication>()) canDuplicate = false;
-                if (item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin) canDuplicate = false;
-
-                if (canDuplicate)
+                if (player.CanAfford(price))
                 {
-                    long price = (long)(item.GetStoreValue() * 0.2 * Config.PriceMultiplier);
+                    if (Main.stackSplit > 1) return;
                     
-                    if (price < 0) price = 0;
+                    int m = Main.superFastStack + 1;
                     
-                    if (player.CanAfford(price))
+                    for (int n = 0; n < m; n++)
                     {
-                        if (Main.stackSplit > 1) return;
+                        bool canStack = Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack;
+                        bool canPlace = Main.mouseItem.type == ItemID.None;
                         
-                        int m = Main.superFastStack + 1;
-                        
-                        for (int n = 0; n < m; n++)
+                        if (!(canStack || canPlace)) break;
+
+                        if (price > 0)
                         {
-                            bool canStack = Main.mouseItem.type == item.type && Main.mouseItem.stack < Main.mouseItem.maxStack;
-                            bool canPlace = Main.mouseItem.type == ItemID.None;
-                            
-                            if (!(canStack || canPlace)) break;
-
-                            if (price > 0)
-                            {
-                                player.BuyItem(price);
-                            }
-
-                            if (canStack)
-                            {
-                                Main.mouseItem.stack++;
-                            }
-                            else if (canPlace)
-                            {
-                                Main.mouseItem = item.Clone();
-                                Main.mouseItem.stack = 1;
-                            }
-
-                            if (n == 0 && price > 0)
-                            {
-                                SoundEngine.PlaySound(SoundID.Coins);
-                                ItemSlot.RefreshStackSplitCooldown();
-                            }
+                            player.BuyItem(price);
                         }
-                        return;
+
+                        if (canStack)
+                        {
+                            Main.mouseItem.stack++;
+                        }
+                        else if (canPlace)
+                        {
+                            Main.mouseItem = item.Clone();
+                            Main.mouseItem.stack = 1;
+                        }
+
+                        if (n == 0 && price > 0)
+                        {
+                            SoundEngine.PlaySound(SoundID.Coins);
+                            ItemSlot.RefreshStackSplitCooldown();
+                        }
                     }
+                    return;
                 }
             }
             
@@ -95,17 +96,13 @@ namespace TheBookofDuplication
         {
             if (item.type == ItemID.None) return false;
             if (!BookOfDuplication.Active) return false;
-            if (item.type == ModContent.ItemType<BookOfDuplication>()) return false;
-            if (item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin) return false;
+            if (!IsItemDuplicable(item)) return false;
             
             long price = (long)(item.GetStoreValue() * 0.2 * Config.PriceMultiplier);
             if (price < 0) price = 0;
             if (!Main.LocalPlayer.CanAfford(price)) return false;
             
-            if (BookOfDuplication.Active)
-                return Main.mouseRightRelease = true;
-            
-            return false;
+            return Main.mouseRightRelease = true;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -132,7 +129,7 @@ namespace TheBookofDuplication
                 return;
             }
 
-            if (CanDuplicateItem(item))
+            if (IsItemDuplicable(item))
             {
                 long price = (long)(item.GetStoreValue() * 0.2 * Config.PriceMultiplier);
                 if (price < 0) price = 0;
@@ -163,19 +160,13 @@ namespace TheBookofDuplication
             }
             else
             {
+                // 统一显示无法复制
                 tooltips.Add(new TooltipLine(Mod, "CannotDuplicate", 
                     Language.GetTextValue("Mods.TheBookofDuplication.CannotDuplicate"))
                 {
                     OverrideColor = Color.Gray
                 });
             }
-        }
-
-        private bool CanDuplicateItem(Item item)
-        {
-            if (item.type == ModContent.ItemType<BookOfDuplication>()) return false;
-            if (item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin) return false;
-            return true;
         }
 
         private string FormatPrice(long price)
