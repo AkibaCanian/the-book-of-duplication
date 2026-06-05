@@ -1,6 +1,6 @@
 DisplayName: Book of Duplication
 Description: "[c/66CCFF:Right click to switch to duplication mode]"
-InstructionFormat: In duplication mode, right-click any item in inventory to duplicate at {0}x price
+InstructionFormat: In duplication mode, right-click any item in inventory to duplicate at {0}x sell price
 DuplicatePriceFormat: Duplicate Price: {0}
 Platinum: Platinum
 Gold: Gold

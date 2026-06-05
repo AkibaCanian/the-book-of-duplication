@@ -160,7 +160,6 @@ namespace TheBookofDuplication
             }
             else
             {
-                // 统一显示无法复制
                 tooltips.Add(new TooltipLine(Mod, "CannotDuplicate", 
                     Language.GetTextValue("Mods.TheBookofDuplication.CannotDuplicate"))
                 {

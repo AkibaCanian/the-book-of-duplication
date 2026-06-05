@@ -1,6 +1,6 @@
 DisplayName: 复制之书
 Description: "[c/66CCFF:右键点击切换为复制模式]"
-InstructionFormat: 复制模式下，右键点击背包内任意物品以 {0} 倍价格复制
+InstructionFormat: 复制模式下，右键点击背包内任意物品以 {0} 倍售出价格复制
 DuplicatePriceFormat: 复制价格: {0}
 Platinum: 铂金币
 Gold: 金币
