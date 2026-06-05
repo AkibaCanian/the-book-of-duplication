@@ -1,0 +1,3 @@
+displayName = 复制之书
+author = AkibaCanian
+version = 0.1

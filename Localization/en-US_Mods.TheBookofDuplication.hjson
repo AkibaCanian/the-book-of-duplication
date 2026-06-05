@@ -1,0 +1,48 @@
+DisplayName: Book of Duplication
+Description: "[c/66CCFF:Right click to switch to duplication mode]"
+InstructionFormat: In duplication mode, right-click any item in inventory to duplicate at {0}x price
+DuplicatePriceFormat: Duplicate Price: {0}
+Platinum: Platinum
+Gold: Gold
+Silver: Silver
+Copper: Copper
+PriceFree: Duplicate Price: Free
+DuplicateInstruction: "[c/66CCFF:Right click to duplicate]"
+CannotDuplicate: "[c/808080:Cannot duplicate this item]"
+ExitInstruction: "[c/66CCFF:Right click to exit duplication mode]"
+
+Mods: {
+	TheBookofDuplication: {
+		PriceMultiplier: {
+			Label: Price Multiplier
+			Tooltip:
+				'''
+				Duplicate price relative to item's sell price
+				Range: 1-30x
+				Default: 2x
+				'''
+		}
+
+		PriceSettings.Label: Price Settings
+	}
+}
+
+Items.BookOfDuplication.Tooltip: ""
+
+Configs: {
+	DuplicationConfig: {
+		DisplayName: Configuration
+
+		PriceMultiplier: {
+			Label: Price Multiplier
+			Tooltip:
+				'''
+				Duplicate price relative to item's sell price
+				Range: 1-30x
+				Default: 2x
+				'''
+		}
+	}
+}
+
+PriceSettings.Label: Duplicate Price Settings

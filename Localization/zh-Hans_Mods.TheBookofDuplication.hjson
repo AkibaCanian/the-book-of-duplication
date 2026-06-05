@@ -1,0 +1,48 @@
+DisplayName: 复制之书
+Description: "[c/66CCFF:右键点击切换为复制模式]"
+InstructionFormat: 复制模式下，右键点击背包内任意物品以 {0} 倍价格复制
+DuplicatePriceFormat: 复制价格: {0}
+Platinum: 铂金币
+Gold: 金币
+Silver: 银币
+Copper: 铜币
+PriceFree: 复制价格: 免费
+DuplicateInstruction: "[c/66CCFF:右键复制此物品]"
+CannotDuplicate: "[c/808080:无法复制此物品]"
+ExitInstruction: "[c/66CCFF:右键点击退出复制模式]"
+
+Mods: {
+	TheBookofDuplication: {
+		PriceMultiplier: {
+			Label: 复制价格倍数
+			Tooltip:
+				'''
+				复制价格相对于物品售出价格的倍数
+				范围: 1-30 倍
+				默认: 2 倍
+				'''
+		}
+
+		PriceSettings.Label: 价格设置
+	}
+}
+
+Items.BookOfDuplication.Tooltip: ""
+
+Configs: {
+	DuplicationConfig: {
+		DisplayName: 配置
+
+		PriceMultiplier: {
+			Label: 复制价格倍数
+			Tooltip:
+				'''
+				物品复制价格相对于售出价格的倍数
+				范围: 1-30 倍
+				默认: 2 倍
+				'''
+		}
+	}
+}
+
+PriceSettings.Label: 复制价格设置
