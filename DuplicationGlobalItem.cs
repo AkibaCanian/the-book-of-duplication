@@ -64,10 +64,7 @@ namespace TheBookofDuplication
                         
                         if (!(canStack || canPlace)) break;
 
-                        if (price > 0)
-                        {
                             player.BuyItem(price);
-                        }
 
                         if (canStack)
                         {
@@ -79,7 +76,7 @@ namespace TheBookofDuplication
                             Main.mouseItem.stack = 1;
                         }
 
-                        if (n == 0 && price > 0)
+                        if (n == 0)
                         {
                             SoundEngine.PlaySound(SoundID.Coins);
                             ItemSlot.RefreshStackSplitCooldown();
