@@ -9,6 +9,7 @@ Copper: 铜币
 PriceFree: 复制价格: 免费
 DuplicateInstruction: "[c/66CCFF:右键复制此物品]"
 CannotDuplicate: "[c/808080:无法复制此物品]"
+ShopCannotDuplicate: "[c/808080:无法在打开商店的时候复制]"
 ExitInstruction: "[c/66CCFF:右键点击退出复制模式]"
 
 Mods: {

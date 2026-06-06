@@ -9,6 +9,7 @@ Copper: Copper
 PriceFree: Duplicate Price: Free
 DuplicateInstruction: "[c/66CCFF:Right click to duplicate]"
 CannotDuplicate: "[c/808080:Cannot duplicate this item]"
+ShopCannotDuplicate: "[c/808080:Cannot duplicate while shop is open]"
 ExitInstruction: "[c/66CCFF:Right click to exit duplication mode]"
 
 Mods: {

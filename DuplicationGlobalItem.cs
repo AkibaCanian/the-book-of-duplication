@@ -46,6 +46,12 @@ namespace TheBookofDuplication
 
         public static void DuplicationModifyRightClick(orig_RightClick orig, Item item, Player player)
         {
+            if (player.talkNPC != -1)
+            {
+                orig(item, player);
+                return;
+            }
+
             if (BookOfDuplication.Active && IsItemDuplicable(item))
             {
                 long price = (long)(item.GetStoreValue() * 0.2 * Config.PriceMultiplier);
@@ -64,7 +70,7 @@ namespace TheBookofDuplication
                         
                         if (!(canStack || canPlace)) break;
 
-                            player.BuyItem(price);
+                        player.BuyItem(price);
 
                         if (canStack)
                         {
@@ -92,6 +98,7 @@ namespace TheBookofDuplication
         public override bool CanRightClick(Item item)
         {
             if (item.type == ItemID.None) return false;
+            if (Main.LocalPlayer.talkNPC != -1) return false;
             if (!BookOfDuplication.Active) return false;
             if (!IsItemDuplicable(item)) return false;
             
@@ -106,6 +113,8 @@ namespace TheBookofDuplication
         {
             if (!BookOfDuplication.Active) return;
 
+            bool inShop = Main.LocalPlayer.talkNPC != -1;
+
             TooltipLine nameLine = null;
             foreach (var tip in tooltips)
             {
@@ -116,9 +125,19 @@ namespace TheBookofDuplication
             if (nameLine != null)
                 tooltips.Add(nameLine);
 
+            if (inShop)
+            {
+                tooltips.Add(new TooltipLine(Mod, "ShopCannotDuplicate",
+                    Language.GetTextValue("Mods.TheBookofDuplication.ShopCannotDuplicate"))
+                {
+                    OverrideColor = Color.Gray
+                });
+                return;
+            }
+
             if (item.type == ModContent.ItemType<BookOfDuplication>())
             {
-                tooltips.Add(new TooltipLine(Mod, "ExitInstruction", 
+                tooltips.Add(new TooltipLine(Mod, "ExitInstruction",
                     Language.GetTextValue("Mods.TheBookofDuplication.ExitInstruction"))
                 {
                     OverrideColor = Color.LightGreen
@@ -133,7 +152,7 @@ namespace TheBookofDuplication
                 
                 if (item.GetStoreValue() == 0 || price == 0)
                 {
-                    tooltips.Add(new TooltipLine(Mod, "DuplicatePriceFree", 
+                    tooltips.Add(new TooltipLine(Mod, "DuplicatePriceFree",
                         Language.GetTextValue("Mods.TheBookofDuplication.PriceFree"))
                     {
                         OverrideColor = Color.LightGreen
@@ -142,14 +161,14 @@ namespace TheBookofDuplication
                 else
                 {
                     string priceText = FormatPrice(price);
-                    tooltips.Add(new TooltipLine(Mod, "DuplicatePrice", 
+                    tooltips.Add(new TooltipLine(Mod, "DuplicatePrice",
                         Language.GetTextValue("Mods.TheBookofDuplication.DuplicatePriceFormat", priceText))
                     {
                         OverrideColor = GetPriceColor(price)
                     });
                 }
 
-                tooltips.Add(new TooltipLine(Mod, "DuplicateInstruction", 
+                tooltips.Add(new TooltipLine(Mod, "DuplicateInstruction",
                     Language.GetTextValue("Mods.TheBookofDuplication.DuplicateInstruction"))
                 {
                     OverrideColor = Color.LightGreen
@@ -157,7 +176,7 @@ namespace TheBookofDuplication
             }
             else
             {
-                tooltips.Add(new TooltipLine(Mod, "CannotDuplicate", 
+                tooltips.Add(new TooltipLine(Mod, "CannotDuplicate",
                     Language.GetTextValue("Mods.TheBookofDuplication.CannotDuplicate"))
                 {
                     OverrideColor = Color.Gray
