@@ -19,8 +19,9 @@ Mods: {
 			Tooltip:
 				'''
 				Duplicate price relative to item's sell price
-				Range: 1-30x
+				Range: 0-30x
 				Default: 2x
+				When the multiplier is set to 0, the copied price is 0.
 				'''
 		}
 
@@ -39,8 +40,9 @@ Configs: {
 			Tooltip:
 				'''
 				Duplicate price relative to item's sell price
-				Range: 1-30x
+				Range: 0-30x
 				Default: 2x
+				When the multiplier is set to 0, the duplicate price is 0.
 				'''
 		}
 	}

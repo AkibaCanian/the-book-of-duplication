@@ -10,7 +10,7 @@ namespace TheBookofDuplication
         [Header("$Mods.TheBookofDuplication.PriceSettings.Label")]
 
         [DefaultValue(2)]
-        [Range(1, 30)]
+        [Range(0, 30)]
         [ReloadRequired]
         public int PriceMultiplier { get; set; } = 2;
     }
